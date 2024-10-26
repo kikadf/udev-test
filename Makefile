@@ -1,14 +1,18 @@
 CC = gcc
 CFLAGS = -g -Wall
+UNAME := 	$(shell uname)
 
-udev_examples:
-	$(CC) $(CFLAGS) -o udev_example1 udev_example1.c -ludev
-	$(CC) $(CFLAGS) -o udev_example2 udev_example2.c -ludev
-	$(CC) $(CFLAGS) -o udev_example3 udev_example3.c -ludev
+ifeq ($($(UNAME),FreeBSD)
+	CC = clang
+endif
+ifeq ($($(UNAME),OpenBSD)
+	CC = clang
+endif
 
-default: udev_examples
+udev_test:
+	$(CC) $(CFLAGS) -o udev_test udev_test.c -ludev
 
-all: default
+all: udev_test
 
 clean:
-	rm -f udev_example1 udev_example2 udev_example3
+	rm -f udev_test
