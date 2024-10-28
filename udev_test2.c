@@ -68,6 +68,10 @@ main(int argc, char **argv)
 //	udev_enumerate_add_match_subsystem(enumerate, "input");
 	udev_enumerate_scan_devices(enumerate);
 	devices = udev_enumerate_get_list_entry(enumerate);
+	if (!devices) {
+		fprintf(stderr, "Failed to get device list.\n");
+		return 1;
+	}
 	/* For each item enumerated, print out its information.
 	   udev_list_entry_foreach is a macro which expands to
 	   a loop. The loop will be executed for each member in
@@ -86,7 +90,7 @@ main(int argc, char **argv)
 		printf("I: KERNEL=%s\n", udev_device_get_sysname(dev));
 		printf("I: DEVPATH=%s\n", udev_device_get_devpath(dev));
 //		TODO: udev_device_get_devtype cause SIGSEGV
-//		printf("I: DEVTYPE=%s\n", udev_device_get_devtype(dev));
+		printf("I: DEVTYPE=%s\n", udev_device_get_devtype(dev));
 
 		tmp = udev_device_get_sysattr_value(dev, "size");
 		if (tmp)
