@@ -90,7 +90,7 @@ main(int argc, char **argv)
 		printf("I: KERNEL=%s\n", udev_device_get_sysname(dev));
 		printf("I: DEVPATH=%s\n", udev_device_get_devpath(dev));
 //		TODO: udev_device_get_devtype cause SIGSEGV
-		printf("I: DEVTYPE=%s\n", udev_device_get_devtype(dev));
+//		printf("I: DEVTYPE=%s\n", udev_device_get_devtype(dev));
 
 		tmp = udev_device_get_sysattr_value(dev, "size");
 		if (tmp)
