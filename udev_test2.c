@@ -94,8 +94,15 @@ main(int argc, char **argv)
 		dev = udev_device_new_from_syspath(udev, path);
 
 		printf("I: DEVNODE=%s\n", udev_device_get_devnode(dev));
-		printf("I: KERNEL=%s\n", udev_device_get_sysname(dev));
+		printf("I: SYSNAME=%s\n", udev_device_get_sysname(dev));
 		printf("I: DEVPATH=%s\n", udev_device_get_devpath(dev));
+		printf("I: DEVNUM=%ld\n", udev_device_get_devnum(dev));
+		printf("I: DRIVER=%s\n", udev_device_get_driver(dev));
+		printf("I: SYSNUM=%s\n", udev_device_get_sysnum(dev));
+		printf("I: SEQNUM=%lld\n", udev_device_get_seqnum(dev));
+		printf("I: USEC=%lld\n", udev_device_get_usec_since_initialized(dev));
+		printf("I: SUBSYSTEM=%s\n", udev_device_get_subsystem(dev));
+		printf("I: ACTION=%s\n", udev_device_get_action(dev));
 //		TODO: udev_device_get_devtype cause SIGSEGV
 //		printf("I: DEVTYPE=%s\n", udev_device_get_devtype(dev));
 		proplist = udev_device_get_properties_list_entry(dev);
