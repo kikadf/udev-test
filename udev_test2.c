@@ -19,10 +19,17 @@ main(int argc, char **argv)
 {
 	int monitor = 0;
 	struct udev *udev;
-	struct udev_enumerate *enumerate;
 	struct udev_list_entry *devices, *dev_list_entry;
 	struct udev_device *dev;
 	struct udev_monitor *mon;
+	struct udev_enumerate *enumerate;
+//	struct udev_queue *queue;
+//	struct udev_hwdb *hwdb;
+	struct udev_list_entry *proplist;
+	struct udev_list_entry *sysattr;
+	struct udev_list_entry *taglist;
+	struct udev_list_entry *devlink;
+	
 	int fd;
 
 	if ((argc == 2) && (strcmp(argv[1], "-m") == 0)) {
@@ -91,6 +98,14 @@ main(int argc, char **argv)
 		printf("I: DEVPATH=%s\n", udev_device_get_devpath(dev));
 //		TODO: udev_device_get_devtype cause SIGSEGV
 //		printf("I: DEVTYPE=%s\n", udev_device_get_devtype(dev));
+		proplist = udev_device_get_properties_list_entry(dev);
+		printf("I: Proplist=%s - %s\n", udev_list_entry_get_name(proplist), udev_list_entry_get_value(proplist));
+		sysattr = udev_device_get_sysattr_list_entry(dev);
+		printf("I: Sysattr=%s - %s\n", udev_list_entry_get_name(sysattr), udev_list_entry_get_value(sysattr));
+		taglist = udev_device_get_tags_list_entry(dev);
+		printf("I: Taglist=%s - %s\n", udev_list_entry_get_name(taglist), udev_list_entry_get_value(taglist));
+		devlink = udev_device_get_devlinks_list_entry(dev);
+		printf("I: Devlink=%s - %s\n", udev_list_entry_get_name(devlink), udev_list_entry_get_value(devlink));
 
 		tmp = udev_device_get_sysattr_value(dev, "size");
 		if (tmp)
