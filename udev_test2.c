@@ -17,7 +17,7 @@
 int
 main(int argc, char **argv)
 {
-	int monitor = 0;
+	int fd, monitor = 0;
 	struct udev *udev;
 	struct udev_list_entry *devices, *dev_list_entry;
 	struct udev_device *dev;
@@ -29,8 +29,6 @@ main(int argc, char **argv)
 	struct udev_list_entry *sysattr;
 	struct udev_list_entry *taglist;
 	struct udev_list_entry *devlink;
-	
-	int fd;
 
 	if ((argc == 2) && (strcmp(argv[1], "-m") == 0)) {
 		monitor = 1;
@@ -103,8 +101,8 @@ main(int argc, char **argv)
 		printf("I: USEC=%lld\n", udev_device_get_usec_since_initialized(dev));
 		printf("I: SUBSYSTEM=%s\n", udev_device_get_subsystem(dev));
 		printf("I: ACTION=%s\n", udev_device_get_action(dev));
-//		TODO: udev_device_get_devtype cause SIGSEGV
-//		printf("I: DEVTYPE=%s\n", udev_device_get_devtype(dev));
+		const char *devtype = udev_device_get_devtype(dev);
+		printf("I: DEVTYPE=%s\n", devtype ? devtype : "NULL");
 		proplist = udev_device_get_properties_list_entry(dev);
 		printf("I: Proplist=%s - %s\n", udev_list_entry_get_name(proplist), udev_list_entry_get_value(proplist));
 		sysattr = udev_device_get_sysattr_list_entry(dev);
