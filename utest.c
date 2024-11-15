@@ -101,8 +101,7 @@ main(int argc, char **argv)
 		printf("I: USEC=%lld\n", udev_device_get_usec_since_initialized(dev));
 		printf("I: SUBSYSTEM=%s\n", udev_device_get_subsystem(dev));
 		printf("I: ACTION=%s\n", udev_device_get_action(dev));
-		const char *devtype = udev_device_get_devtype(dev);
-		printf("I: DEVTYPE=%s\n", devtype ? devtype : "NULL");
+		printf("I: DEVTYPE=%s\n", udev_device_get_devtype(dev));
 		proplist = udev_device_get_properties_list_entry(dev);
 		printf("I: Proplist=%s - %s\n", udev_list_entry_get_name(proplist), udev_list_entry_get_value(proplist));
 		sysattr = udev_device_get_sysattr_list_entry(dev);

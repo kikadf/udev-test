@@ -1,20 +1,24 @@
 CC = 		gcc
-CFLAGS = 	-g -Wall -I/usr/include -I/usr/local/include
-LDFLAGS =	-L/lib -L/usr/lib -L/usr/local/lib
+CFLAGS = 	-g -Wall -I/usr/include
+LDFLAGS =	-L/lib -L/usr/lib
 UNAME := 	$(shell uname)
 
 ifeq ($(UNAME),FreeBSD)
-	CC =	clang
+	CC =		clang
+	CFLAGS +=	-I/usr/local/include
+	LDFLAGS +=	-L/usr/local/lib
 endif
 
 ifeq ($(UNAME),OpenBSD)
 	CC =	clang
+	CFLAGS +=	-I/usr/local/include
+	LDFLAGS +=	-L/usr/local/lib
 endif
 
-udev_test:
-	$(CC) $(CFLAGS) $(LDFLAGS) -o udevtest udev_test2.c -ludev
+utest:
+	$(CC) $(CFLAGS) $(LDFLAGS) -o utest utest.c -ludev
 
-all: udev_test
+all: utest
 
 clean:
-	rm -f udevtest
+	rm -f utest
