@@ -15,6 +15,11 @@ ifeq ($(UNAME),OpenBSD)
 	LDFLAGS +=	-L/usr/local/lib
 endif
 
+ifeq ($(UNAME),NetBSD)
+	CFLAGS +=	-I/usr/pkg/include
+	LDFLAGS +=	-L/usr/pkg/lib -R/usr/pkg/lib
+endif
+
 utest:
 	$(CC) $(CFLAGS) $(LDFLAGS) -o utest utest.c -ludev
 
