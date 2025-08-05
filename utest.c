@@ -43,8 +43,7 @@ main(int argc, char **argv)
 
 	if (monitor) {
 		/* This section sets up a monitor which will report events when
-		   devices attached to the system change.  Events include "add",
-		   "remove", "change", "online", and "offline".
+		   devices attached or dettached.
 
 		   This section sets up and starts the monitoring. Events are
 		   polled for (and delivered) later in the file.
@@ -53,14 +52,12 @@ main(int argc, char **argv)
 		   udev_enumerate_scan_devices() so that events (and devices) are
 		   not missed.  For example, if enumeration happened first, there
 		   would be no event generated for a device which was attached after
-		   enumeration but before monitoring began.
+		   enumeration but before monitoring began. */
 
-		   Note that a filter is added so that we only get events for
-		   "hidraw" devices. */
-
-		/* Set up a monitor to monitor hidraw devices */
+		/* Set up a monitor */
 		mon = udev_monitor_new_from_netlink(udev, "udev");
 		udev_monitor_filter_add_match_subsystem_devtype(mon, "input", NULL);
+		udev_monitor_filter_add_match_subsystem_devtype(mon, "fido", NULL);
 		udev_monitor_enable_receiving(mon);
 		/* Get the file descriptor (fd) for the monitor.
 		   This fd will get passed to select() */
@@ -174,15 +171,10 @@ main(int argc, char **argv)
 				dev = udev_monitor_receive_device(mon);
 				if (dev) {
 					printf("Got Device\n");
-					printf("   Node: %s\n",
-					    udev_device_get_devnode(dev));
-					printf("   Subsystem: %s\n",
-					    udev_device_get_subsystem(dev));
-					// printf("   Devtype: %s\n",
-					// udev_device_get_devtype(dev));
-
-					printf("   Action: %s\n",
-					    udev_device_get_action(dev));
+					printf("   Node: %s\n", udev_device_get_devnode(dev));
+					printf("   Subsystem: %s\n", udev_device_get_subsystem(dev));
+					printf("   Devtype: %s\n", udev_device_get_devtype(dev));
+					printf("   Action: %s\n", udev_device_get_action(dev));
 					udev_device_unref(dev);
 				} else {
 					printf("No Device from receive_device(). An "
